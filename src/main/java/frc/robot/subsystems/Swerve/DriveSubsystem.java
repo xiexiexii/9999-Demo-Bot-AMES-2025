@@ -64,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
   };
 
   // Creates the Gyro for Swerve Magic
-  private final AHRS m_gyro = new AHRS(NavXComType.kMXP_SPI);
+  private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
 
   // Default rotation for reference (PathPlanner)
   private Rotation2d rawGyroRotation = new Rotation2d();

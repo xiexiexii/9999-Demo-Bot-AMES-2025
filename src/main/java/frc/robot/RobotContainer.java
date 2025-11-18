@@ -7,10 +7,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.subsystems.Mechanisms.IntakeSubsystem;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 // This class is where the bulk of the robot should be declared.  Since Command-based is a
 // "declarative" paradigm, very little robot logic should actually be handled in the Robot
@@ -21,9 +24,9 @@ public class RobotContainer {
 
   // Robot's Subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  // private final CANRangeSubsystem m_CANRange = new CANRangeSubsystem();
-  // private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
-  // private final PhotonHelpers m_photonSubsystem = new PhotonHelpers(VisionConstants.k_aprilTagCameraName, VisionConstants.k_objectDetectionCameraName);
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+
+  // Chooser for Auto
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Controllers
@@ -72,6 +75,15 @@ public class RobotContainer {
     // new JoystickButton(m_driverController, ControllerConstants.k_B)
     //   .onTrue(new AimCommandGamePiece(m_robotDrive, m_photonSubsystem)
     // );
+
+    // Intake - Right Trig
+    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
+      );
   }
 
   public Command getAutonomousCommand() {

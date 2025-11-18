@@ -7,7 +7,8 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 
 public final class Constants {
 
@@ -79,15 +80,52 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
+  // The one random constant that tells you how fast a NEO goes
+  public static final class MotorIDConstants {
+    
+    public static final int k_intakeMotorID = 11;
+
+    public static final int k_feederMotorID = 21;
+    public static final int k_indexerMotorID = 22;
+
+    public static final int k_shooterMotorID = 31;
+
+    public static final int k_woodFlipoutMotorID = 41;
+    public static final int k_woodIntakeMotorID = 42;
+  }
+
+  public static final class MotorSpeedConstants {
+
+    // Intake
+    public static final double k_intakeSpeed = 0.75;
+
+    // Feeder
+    public static final double k_feederSpeed = 0.5;
+  }
+
   // Controller Ports, Deadband, Buttons and Triggers
   public static final class ControllerConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.1;
 
-    public static final int k_A = XboxController.Button.kA.value;
-    public static final int k_B = XboxController.Button.kB.value;
-    public static final int k_X = XboxController.Button.kX.value;
-    public static final int k_Y = XboxController.Button.kY.value;
+    public final static int k_start = Button.kStart.value; // Start Button
+    public final static int k_back = Button.kBack.value; // Back Button
+
+    public static final int k_A = Button.kA.value; // A
+    public static final int k_B = Button.kB.value; // B
+    public static final int k_X = Button.kX.value; // X
+    public static final int k_Y = Button.kY.value; // Y
+
+    public static final int k_dpadup = 0; // D-Pad Up
+    public static final int k_dpadRight = 90; // D-Pad Right
+    public static final int k_dpadDown = 180; // D-Pad Down
+    public static final int k_dpadLeft = 270; // D-Pad Left
+
+    public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
+    public final static int k_leftbump = Button.kLeftBumper.value; // Left Bump
+
+    public final static int k_righttrig = Axis.kRightTrigger.value; // Right Trig
+    public final static int k_lefttrig = Axis.kLeftTrigger.value; // Left Trig
   }
 
   // Auto stuff

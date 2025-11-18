@@ -75,4 +75,38 @@ public final class Configs {
       CANRangeConfig.ToFParams.UpdateMode = UpdateModeValue.ShortRange100Hz; // Measurement mode
     }
   }
+
+  // NEO Vortex
+  public static final class VortexConfigs {
+
+    // Init
+    public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
+
+    static {
+      // Brake/Coast & Current Limit
+      intakeConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(60);
+      // Ramping
+      intakeConfig
+        .openLoopRampRate(0.5);
+    }
+  }
+
+  // NEO v1.1
+  public static final class NeoConfigs {
+
+    // Init
+    public static final SparkMaxConfig feederConfig = new SparkMaxConfig();
+
+    static {
+      // Brake/Coast & Current Limit
+      feederConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50);
+      // Ramping
+      feederConfig
+        .openLoopRampRate(0.4);
+    }
+  }
 }
