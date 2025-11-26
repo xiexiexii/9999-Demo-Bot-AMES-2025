@@ -80,7 +80,6 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  // The one random constant that tells you how fast a NEO goes
   public static final class MotorIDConstants {
     
     public static final int k_intakeMotorID = 11;
@@ -94,13 +93,25 @@ public final class Constants {
     public static final int k_woodIntakeMotorID = 42;
   }
 
+  public static final class SensorIDConstants {
+    
+    public static final int k_intakeCANRangeID = 51;
+  }
+
   public static final class MotorSpeedConstants {
 
     // Intake
-    public static final double k_intakeSpeed = 0.75;
+    public static final double k_intakeSpeed = 0.40;
 
     // Feeder
-    public static final double k_feederSpeed = 0.5;
+    public static final double k_feederSpeed = 0.65;
+
+    // Indexer
+    public static final double k_indexerSpeed = 0.5;
+
+    // Shooter 
+    public static final double k_shooterSpeed = 0.90;
+    public static final double k_shooterIndexSpeed = 0.05;
   }
 
   // Controller Ports, Deadband, Buttons and Triggers
@@ -132,12 +143,6 @@ public final class Constants {
   public static final class AutoConstants {
   }
 
-  // LED Stuff
-  public static final class SensorConstants {
-    public static final int k_blinkinPort = 0;  
-    public static final int k_CANRangeID = 60;
-  }
-
   // Vision Constants
   public static final class VisionConstants {
 
@@ -163,5 +168,25 @@ public final class Constants {
     public static final double kP_range = 0.10;
     public static final double kI_range = 0.000;
     public static final double kD_range = 0.000;
+  }
+
+  // Pneumatics stuff
+  public static final class PneumaticConstants {
+    public static final int k_pneumaticHubID = 60;
+
+    public static final int k_solenoidIDFlipTakeLeftReverseChannel = 0;
+    public static final int k_solenoidIDFlipTakeLeftForwardChannel = 1;
+    public static final int k_solenoidIDFlipTakeRightReverseChannel = 2;
+    public static final int k_solenoidIDFlipTakeRightForwardChannel = 3;
+  }
+
+  public static final class TimeConstants {
+    public static final double k_spinUpTime = 1.0;
+  }
+
+  public static final class LiveConstants {
+
+    public static int _intakeCounter = 0;
+    public static boolean _lastIsDetected = false;
   }
 }

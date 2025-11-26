@@ -10,30 +10,29 @@ import frc.robot.Configs.VortexConfigs;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorSpeedConstants;
 
-public class IntakeSubsystem extends SubsystemBase{
+public class ShooterSubsystem extends SubsystemBase{
   
   // Motors - [NEO Vortex + SparkFLEX] x1
-  SparkFlex m_intake;
+  SparkFlex m_shooter;
 
-  public IntakeSubsystem() {
+  public ShooterSubsystem() {
     
-    m_intake = new SparkFlex(MotorIDConstants.k_intakeMotorID, MotorType.kBrushless);
+    m_shooter = new SparkFlex(MotorIDConstants.k_shooterMotorID, MotorType.kBrushless);
 
-    m_intake.configure(VortexConfigs.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_shooter.configure(VortexConfigs.shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   // Intake Stuff
-  public void intake() {
-    m_intake.set(MotorSpeedConstants.k_intakeSpeed);
+  public void shoot() {
+    m_shooter.set(-MotorSpeedConstants.k_shooterSpeed);
   }
 
-  public void stopIntake() {
-    m_intake.set(0);
+  public void stopShooter() {
+    m_shooter.set(0);
   }
 
-  // Just in case 
-  public void reverseIntake() {
-    m_intake.set(-MotorSpeedConstants.k_intakeSpeed);
+  public void reverseShooterIndex() {
+    m_shooter.set(MotorSpeedConstants.k_shooterIndexSpeed);
   }
 
   public void periodic() {}

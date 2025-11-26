@@ -7,10 +7,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.PrimeTowerCommand;
+import frc.robot.commands.SmartIntakeCommand;
+import frc.robot.commands.SpinUpShootCommand;
+import frc.robot.subsystems.Mechanisms.CANRangeSubsystem;
 import frc.robot.subsystems.Mechanisms.IntakeSubsystem;
+import frc.robot.subsystems.Mechanisms.ShooterSubsystem;
+import frc.robot.subsystems.Mechanisms.TowerSubsystem;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -25,6 +32,9 @@ public class RobotContainer {
   // Robot's Subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final CANRangeSubsystem m_CANRangeSubsystem = new CANRangeSubsystem();
 
   // Chooser for Auto
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -71,22 +81,65 @@ public class RobotContainer {
       .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive)
     );
 
-    // Aim Command Photon - B
-    // new JoystickButton(m_driverController, ControllerConstants.k_B)
-    //   .onTrue(new AimCommandGamePiece(m_robotDrive, m_photonSubsystem)
-    // );
+    // Zero Gyro - Back
+    new JoystickButton(m_driverController, ControllerConstants.k_back)
+      .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
+    );
 
     // Intake - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
-      .whileTrue(
-        new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
+      .onTrue(
+        new SmartIntakeCommand(m_intakeSubsystem, m_towerSubsystem, m_shooterSubsystem, m_CANRangeSubsystem)
       )
       .onFalse(
-        new InstantCommand(() -> m_intakeSubsystem.stopShooter(), m_intakeSubsystem)
-      );
+        new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem).alongWith(
+        new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem)
+      )
+    );
+
+    // Index - Right Bump
+    new JoystickButton(m_driverController, ControllerConstants.k_rightbump)
+      .whileTrue(
+        new InstantCommand(() -> m_towerSubsystem.indexAll(), m_towerSubsystem)
+      )
+      .onFalse(
+        new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem)
+    );
+
+    // Shoot - Left Trig
+    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .onTrue(
+        new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
+      )
+      .onFalse(
+        stopShooterCommand()
+    );
   }
 
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();   
   } 
+
+  public ParallelCommandGroup stopShooterCommand() {
+    return new ParallelCommandGroup(
+      new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem),
+      new InstantCommand(() -> m_towerSubsystem.stopAll(), m_towerSubsystem)
+    );
+  }
+
+  public ParallelCommandGroup intakeParallelCommand() {
+    return new ParallelCommandGroup(
+      new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem),
+      new InstantCommand(() -> m_shooterSubsystem.reverseShooterIndex(), m_shooterSubsystem),
+      new InstantCommand(() -> m_towerSubsystem.indexAll(), m_towerSubsystem)
+    );
+  }
+
+  public ParallelCommandGroup stopIntakeParallelCommand() {
+    return new ParallelCommandGroup(
+      new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem),
+      new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem),
+      new InstantCommand(() -> m_towerSubsystem.stopAll(), m_towerSubsystem)
+    );
+  }
 }

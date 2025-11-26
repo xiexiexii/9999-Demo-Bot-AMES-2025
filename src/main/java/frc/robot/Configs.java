@@ -67,7 +67,7 @@ public final class Configs {
     static {
       CANRangeConfig.FutureProofConfigs = true; // Firmware incompatability safety net
 
-      CANRangeConfig.ProximityParams.ProximityThreshold = 0.5; // How far is far enough?
+      CANRangeConfig.ProximityParams.ProximityThreshold = 0.1; // How far is far enough?
       CANRangeConfig.ProximityParams.ProximityHysteresis = 0.01; // Tolerance for measurement
       CANRangeConfig.ProximityParams.MinSignalStrengthForValidMeasurement = 2500; // Signal strength req.
 
@@ -81,15 +81,20 @@ public final class Configs {
 
     // Init
     public static final SparkFlexConfig intakeConfig = new SparkFlexConfig();
+    public static final SparkFlexConfig shooterConfig = new SparkFlexConfig();
 
     static {
-      // Brake/Coast & Current Limit
+      // Intake Configs
       intakeConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(60);
-      // Ramping
-      intakeConfig
+        .smartCurrentLimit(60)
         .openLoopRampRate(0.5);
+
+      // Tower Configs
+      shooterConfig
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(50)
+      .openLoopRampRate(0.5);
     }
   }
 
@@ -98,15 +103,20 @@ public final class Configs {
 
     // Init
     public static final SparkMaxConfig feederConfig = new SparkMaxConfig();
+    public static final SparkMaxConfig indexerConfig =  new SparkMaxConfig();
 
     static {
-      // Brake/Coast & Current Limit
+      // Feeder Configs
       feederConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50);
-      // Ramping
-      feederConfig
-        .openLoopRampRate(0.4);
+        .smartCurrentLimit(50)
+        .openLoopRampRate(0.5);
+
+      // Shooter Configs
+      indexerConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(60)
+        .openLoopRampRate(0.5);
     }
   }
 }
