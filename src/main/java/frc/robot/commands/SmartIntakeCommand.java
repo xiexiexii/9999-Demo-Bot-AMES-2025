@@ -39,6 +39,8 @@ public class SmartIntakeCommand extends Command{
       m_timer.reset();
 
       m_isFinished = false;
+
+      LiveConstants._intakeCounter = 0;
     }
         
 

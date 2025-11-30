@@ -47,7 +47,7 @@ public final class Constants {
     public static final int kRearRightDrivingCanId = 4;
 
     public static final int kFrontLeftTurningCanId = 5;
-    public static final int kRearLeftTurningCanId = 1;
+    public static final int kRearLeftTurningCanId = 9;
     public static final int kFrontRightTurningCanId = 7;
     public static final int kRearRightTurningCanId = 3;
 
@@ -101,7 +101,7 @@ public final class Constants {
   public static final class MotorSpeedConstants {
 
     // Intake
-    public static final double k_intakeSpeed = 0.40;
+    public static final double k_intakeSpeed = 0.60;
 
     // Feeder
     public static final double k_feederSpeed = 0.65;
@@ -147,8 +147,8 @@ public final class Constants {
   public static final class VisionConstants {
 
     // Camera Name
-    public static String k_aprilTagCameraName = "Arducam OV2311";
-    public static String k_objectDetectionCameraName = "Microsoft HD3000";
+    public static String k_intakeLimelightName = "limelight-intake";
+    public static String k_shooterLimelightName = "limelight-shooter";
 
     // Boolean for Position Status
     public static boolean k_positioned = false;
@@ -161,23 +161,21 @@ public final class Constants {
     public static double k_rangeThresholdTOF = 0.01;
 
     // PID Stuff
-    public static final double kP_aim = 0.10;
+    public static final double kP_aim = 0.005;
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
 
-    public static final double kP_range = 0.10;
+    public static final double kP_range = 0.3;
     public static final double kI_range = 0.000;
     public static final double kD_range = 0.000;
   }
 
   // Pneumatics stuff
   public static final class PneumaticConstants {
-    public static final int k_pneumaticHubID = 60;
-
-    public static final int k_solenoidIDFlipTakeLeftReverseChannel = 0;
-    public static final int k_solenoidIDFlipTakeLeftForwardChannel = 1;
-    public static final int k_solenoidIDFlipTakeRightReverseChannel = 2;
-    public static final int k_solenoidIDFlipTakeRightForwardChannel = 3;
+    public static final int k_solenoidIDFlipTakeLeftReverseChannel = 1;
+    public static final int k_solenoidIDFlipTakeLeftForwardChannel = 0;
+    public static final int k_solenoidIDFlipTakeRightReverseChannel = 3;
+    public static final int k_solenoidIDFlipTakeRightForwardChannel = 2;
   }
 
   public static final class TimeConstants {

@@ -17,18 +17,16 @@ public class FlipTakeSubsystem extends SubsystemBase{
   public FlipTakeSubsystem() {
 
     // Compressor should start automatically (I think)
-    m_compressor = new Compressor(PneumaticConstants.k_pneumaticHubID, PneumaticsModuleType.REVPH);
+    m_compressor = new Compressor(PneumaticsModuleType.REVPH); 
 
     // Set Solenoid Ports
     m_flipSolenoidLeft = new DoubleSolenoid(
-      PneumaticConstants.k_pneumaticHubID,
       PneumaticsModuleType.REVPH,
       PneumaticConstants.k_solenoidIDFlipTakeLeftForwardChannel,
       PneumaticConstants.k_solenoidIDFlipTakeLeftReverseChannel
     );
 
     m_flipSolenoidRight = new DoubleSolenoid(
-      PneumaticConstants.k_pneumaticHubID,
       PneumaticsModuleType.REVPH,
       PneumaticConstants.k_solenoidIDFlipTakeRightForwardChannel,
       PneumaticConstants.k_solenoidIDFlipTakeRightReverseChannel
@@ -55,11 +53,9 @@ public class FlipTakeSubsystem extends SubsystemBase{
     m_flipSolenoidRight.set(DoubleSolenoid.Value.kReverse);
   }
 
-
   public void periodic() {
 
     SmartDashboard.putNumber("FlipTake/Compressor/Current Draw", m_compressor.getCurrent());
-    SmartDashboard.putNumber("FlipTake/Compressor/Pressure", m_compressor.getPressure());
     SmartDashboard.putBoolean("FlipTake/Compressor/Compressor Enabled", m_compressor.isEnabled());
   }
 }

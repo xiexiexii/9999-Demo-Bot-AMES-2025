@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs.SensorConfigs;
 import frc.robot.Constants.LiveConstants;
 import frc.robot.Constants.SensorIDConstants;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 public class CANRangeSubsystem extends SubsystemBase{
   
@@ -26,5 +28,10 @@ public class CANRangeSubsystem extends SubsystemBase{
   public void periodic() {
     SmartDashboard.putBoolean("canrange", getIsDetected());
     SmartDashboard.putNumber("canrange/intakeCounter", LiveConstants._intakeCounter);
+
+    SmartDashboard.putNumber("Limelight/TX", LimelightHelpers.getTX(VisionConstants.k_intakeLimelightName));
+    SmartDashboard.putNumber("Limelight/TY", LimelightHelpers.getTY(VisionConstants.k_intakeLimelightName));
+    SmartDashboard.putBoolean("Limelight/TV", LimelightHelpers.getTV(VisionConstants.k_intakeLimelightName));
+    SmartDashboard.putString("Limelight/Class", LimelightHelpers.getDetectorClass(VisionConstants.k_intakeLimelightName));
   }
 }

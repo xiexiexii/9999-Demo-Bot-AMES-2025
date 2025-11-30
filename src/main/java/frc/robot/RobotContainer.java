@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.commands.IntakeAutoPositionCommand;
 import frc.robot.commands.PrimeTowerCommand;
 import frc.robot.commands.SmartIntakeCommand;
 import frc.robot.commands.SpinUpShootCommand;
 import frc.robot.subsystems.Mechanisms.CANRangeSubsystem;
+import frc.robot.subsystems.Mechanisms.FlipTakeSubsystem;
 import frc.robot.subsystems.Mechanisms.IntakeSubsystem;
 import frc.robot.subsystems.Mechanisms.ShooterSubsystem;
 import frc.robot.subsystems.Mechanisms.TowerSubsystem;
@@ -35,6 +37,7 @@ public class RobotContainer {
   private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final CANRangeSubsystem m_CANRangeSubsystem = new CANRangeSubsystem();
+  private final FlipTakeSubsystem m_flipTakeSubsystem = new FlipTakeSubsystem();
 
   // Chooser for Auto
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -81,6 +84,26 @@ public class RobotContainer {
       .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive)
     );
 
+    // Sets wheels in an X position to prevent movement - Right Bump
+    new JoystickButton(m_driverController, ControllerConstants.k_rightbump)
+      .onTrue(
+        new InstantCommand(() -> m_flipTakeSubsystem.extend(), m_flipTakeSubsystem)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem)
+    );
+
+    // Auto-Intake - B
+    new JoystickButton(m_driverController, ControllerConstants.k_B)
+      .onTrue(new IntakeAutoPositionCommand(m_robotDrive).alongWith(
+        new SmartIntakeCommand(m_intakeSubsystem, m_towerSubsystem, m_shooterSubsystem, m_CANRangeSubsystem))
+      )
+      .onFalse(
+        new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem).alongWith(
+        new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem)
+      )
+    );
+
     // Zero Gyro - Back
     new JoystickButton(m_driverController, ControllerConstants.k_back)
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
@@ -89,21 +112,10 @@ public class RobotContainer {
     // Intake - Right Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .onTrue(
-        new SmartIntakeCommand(m_intakeSubsystem, m_towerSubsystem, m_shooterSubsystem, m_CANRangeSubsystem)
+        intakeParallelCommand()
       )
       .onFalse(
-        new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem).alongWith(
-        new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem)
-      )
-    );
-
-    // Index - Right Bump
-    new JoystickButton(m_driverController, ControllerConstants.k_rightbump)
-      .whileTrue(
-        new InstantCommand(() -> m_towerSubsystem.indexAll(), m_towerSubsystem)
-      )
-      .onFalse(
-        new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem)
+        stopIntakeParallelCommand()
     );
 
     // Shoot - Left Trig
@@ -129,17 +141,16 @@ public class RobotContainer {
 
   public ParallelCommandGroup intakeParallelCommand() {
     return new ParallelCommandGroup(
-      new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem),
-      new InstantCommand(() -> m_shooterSubsystem.reverseShooterIndex(), m_shooterSubsystem),
-      new InstantCommand(() -> m_towerSubsystem.indexAll(), m_towerSubsystem)
+      new InstantCommand(() -> m_flipTakeSubsystem.extend(), m_flipTakeSubsystem),
+      new SmartIntakeCommand(m_intakeSubsystem, m_towerSubsystem, m_shooterSubsystem, m_CANRangeSubsystem)
     );
   }
 
   public ParallelCommandGroup stopIntakeParallelCommand() {
     return new ParallelCommandGroup(
-      new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem),
-      new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem),
-      new InstantCommand(() -> m_towerSubsystem.stopAll(), m_towerSubsystem)
+      new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
+      new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem),
+      new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem)
     );
   }
 }
