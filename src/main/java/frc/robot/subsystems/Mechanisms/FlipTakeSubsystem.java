@@ -45,11 +45,29 @@ public class FlipTakeSubsystem extends SubsystemBase{
     m_flipSolenoidRight.set(DoubleSolenoid.Value.kForward);
   }
 
+  // Extend Individual Pistons
+  public void extendLeftOnly() {
+    m_flipSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void extendRightOnly() {
+    m_flipSolenoidRight.set(DoubleSolenoid.Value.kForward);
+  }
+
   // Retract Pistons
   public void retract() {
 
     // Retract!
     m_flipSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+    m_flipSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  // Retract Individual Pistons
+  public void retractLeftOnly() {
+    m_flipSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void retractRightOnly() {
     m_flipSolenoidRight.set(DoubleSolenoid.Value.kReverse);
   }
 

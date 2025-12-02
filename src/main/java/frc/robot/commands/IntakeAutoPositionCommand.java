@@ -8,6 +8,10 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 
+// CAD TODO: Revised Wood Flipout, Gear Holder, 
+// Prog TODO: Draft Autos, Draft LL Autoposition, Wood Flipout
+// Mech TODO: Wood Flipout, Glue Ramp, Limelight 3G, Swap Feeder Wheel, Swap Intake Wheel
+// Comp TODO: Tech Binder, Spec Sheet, Scouting Form, Preflight Checklist, FLL Shirts
 
 // Positions Robot at the Nearest Valid Reef
 public class IntakeAutoPositionCommand extends Command {

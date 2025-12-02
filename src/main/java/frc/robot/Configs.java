@@ -1,6 +1,10 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.signals.AdvancedHallSupportValue;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.UpdateModeValue;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -117,6 +121,23 @@ public final class Configs {
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(60)
         .openLoopRampRate(0.5);
+    }
+  }
+
+  // CTRE Talon FXS
+  public static final class MinionConfigs {
+
+    // Init
+    public static final TalonFXSConfiguration intakeConfig = new TalonFXSConfiguration();
+
+    static {
+      intakeConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.5;
+      intakeConfig.MotorOutput.PeakForwardDutyCycle = 0.65;
+      intakeConfig.MotorOutput.PeakReverseDutyCycle = -0.65;
+      intakeConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      intakeConfig.CurrentLimits.SupplyCurrentLimit = 50;
+      intakeConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+      intakeConfig.Commutation.AdvancedHallSupport = AdvancedHallSupportValue.Enabled;
     }
   }
 }

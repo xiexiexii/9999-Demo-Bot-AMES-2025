@@ -51,7 +51,7 @@ public class SmartIntakeCommand extends Command{
       m_shooterSubsystem.reverseShooterIndex();
 
       if (m_CANRangeSubsystem.getIsDetected() == true && LiveConstants._lastIsDetected == false) LiveConstants._intakeCounter += 1;
-      if (m_CANRangeSubsystem.getIsDetected() && (LiveConstants._intakeCounter % 3) == 0) m_isFinished = true;
+      if (m_CANRangeSubsystem.getIsDetected() && (LiveConstants._intakeCounter == 3)) m_isFinished = true;
 
       LiveConstants._lastIsDetected = m_CANRangeSubsystem.getIsDetected();
     }

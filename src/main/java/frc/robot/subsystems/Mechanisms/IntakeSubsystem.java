@@ -1,25 +1,22 @@
 package frc.robot.subsystems.Mechanisms;
 
-import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.hardware.TalonFXS;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Configs.VortexConfigs;
+import frc.robot.Configs.MinionConfigs;
 import frc.robot.Constants.MotorIDConstants;
 import frc.robot.Constants.MotorSpeedConstants;
 
 public class IntakeSubsystem extends SubsystemBase{
   
-  // Motors - [NEO Vortex + SparkFLEX] x1
-  SparkFlex m_intake;
+  // Motors - [CTRE Minion + Talon FXS] x1
+  TalonFXS m_intake;
 
   public IntakeSubsystem() {
     
-    m_intake = new SparkFlex(MotorIDConstants.k_intakeMotorID, MotorType.kBrushless);
+    m_intake = new TalonFXS(MotorIDConstants.k_intakeMotorID);
 
-    m_intake.configure(VortexConfigs.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_intake.getConfigurator().apply(MinionConfigs.intakeConfig, 0.05);
   }
 
   // Intake Stuff

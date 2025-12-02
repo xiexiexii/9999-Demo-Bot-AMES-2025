@@ -101,7 +101,7 @@ public final class Constants {
   public static final class MotorSpeedConstants {
 
     // Intake
-    public static final double k_intakeSpeed = 0.60;
+    public static final double k_intakeSpeed = 0.75;
 
     // Feeder
     public static final double k_feederSpeed = 0.65;
