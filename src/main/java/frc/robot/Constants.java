@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -77,41 +78,7 @@ public final class Constants {
 
   // The one random constant that tells you how fast a NEO goes
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
-  }
-
-  public static final class MotorIDConstants {
-    
-    public static final int k_intakeMotorID = 11;
-
-    public static final int k_feederMotorID = 21;
-    public static final int k_indexerMotorID = 22;
-
-    public static final int k_shooterMotorID = 31;
-
-    public static final int k_woodFlipoutMotorID = 41;
-    public static final int k_woodIntakeMotorID = 42;
-  }
-
-  public static final class SensorIDConstants {
-    
-    public static final int k_intakeCANRangeID = 51;
-  }
-
-  public static final class MotorSpeedConstants {
-
-    // Intake
-    public static final double k_intakeSpeed = 0.75;
-
-    // Feeder
-    public static final double k_feederSpeed = 0.65;
-
-    // Indexer
-    public static final double k_indexerSpeed = 0.5;
-
-    // Shooter 
-    public static final double k_shooterSpeed = 0.90;
-    public static final double k_shooterIndexSpeed = 0.05;
+    public static final double kFreeSpeedRpm = 6784; // TODO: Does this work?
   }
 
   // Controller Ports, Deadband, Buttons and Triggers
@@ -139,8 +106,62 @@ public final class Constants {
     public final static int k_lefttrig = Axis.kLeftTrigger.value; // Left Trig
   }
 
-  // Auto stuff
-  public static final class AutoConstants {
+  // Motor CAN IDs
+  public static final class MotorIDConstants {
+    
+    public static final int k_intakeMotorID = 11;
+
+    public static final int k_feederMotorID = 21;
+    public static final int k_indexerMotorID = 22;
+
+    public static final int k_shooterMotorID = 31;
+
+    public static final int k_woodFlipoutMotorID = 41;
+    public static final int k_woodIntakeMotorID = 42;
+  }
+
+  // Sensor CAN IDs
+  public static final class SensorIDConstants {
+    
+    public static final int k_intakeCANRangeID = 51;
+  }
+
+  // Motor Speed Constants
+  public static final class MotorSpeedConstants {
+
+    // Intake
+    public static final double k_intakeSpeed = 0.75;
+
+    // Wood Intake
+    public static final double k_woodIntakeSpeed = 0.4;
+
+    // Feeder
+    public static final double k_feederSpeed = 0.65;
+
+    // Indexer
+    public static final double k_indexerSpeed = 0.5;
+
+    // Shooter 
+    public static final double k_shooterSpeed = 0.90;
+    public static final double k_shooterIndexSpeed = 0.05;
+  }
+
+  // PID stuff
+  public static final class WoodFlipoutConstants {
+
+    // Wood Flipout TODO: TUNE US!
+    public static final double k_woodFlipoutP = 0.5; 
+    public static final double k_woodFlipoutI = 0.1;
+    public static final double k_woodFlipoutD = 0.0;
+    public static final double k_woodFlipoutS = 0.4;
+    public static final double k_woodFlipoutV = 0.001;
+    public static final double k_woodFlipoutA = 0.0;
+    public static final double k_woodFlipoutG = 0.5;
+
+    public static final Angle k_woodFlipoutResetAngle = edu.wpi.first.units.Units.Rotations.of(-5);
+    public static final Angle k_woodFlipoutHomeAngle = edu.wpi.first.units.Units.Rotations.of(0);
+    public static final Angle k_woodFlipoutScoreAngle = edu.wpi.first.units.Units.Rotations.of(7.5); 
+    public static final Angle k_woodFlipoutIntakeAngle = edu.wpi.first.units.Units.Rotations.of(19.8); // TODO: Tune us!
   }
 
   // Vision Constants
@@ -148,17 +169,7 @@ public final class Constants {
 
     // Camera Name
     public static String k_intakeLimelightName = "limelight-intake";
-    public static String k_shooterLimelightName = "limelight-shooter";
-
-    // Boolean for Position Status
-    public static boolean k_positioned = false;
-    public static boolean k_positioning = false;
-    public static boolean k_positionedTOF = false;
-
-    // Target & Thresholds
-    public static double k_aimTarget = 0.0;
-    public static double k_aimThreshold = 0.5;
-    public static double k_rangeThresholdTOF = 0.01;
+    public static String k_shooterLimelightName = "limelight-three";
 
     // PID Stuff
     public static final double kP_aim = 0.005;
@@ -168,23 +179,32 @@ public final class Constants {
     public static final double kP_range = 0.3;
     public static final double kI_range = 0.000;
     public static final double kD_range = 0.000;
+
+    public static final double k_aimThreshold = 0.5;
+    public static final double k_rangeThreshold = 0.5;
   }
 
   // Pneumatics stuff
   public static final class PneumaticConstants {
-    public static final int k_solenoidIDFlipTakeLeftReverseChannel = 1;
     public static final int k_solenoidIDFlipTakeLeftForwardChannel = 0;
-    public static final int k_solenoidIDFlipTakeRightReverseChannel = 3;
+    public static final int k_solenoidIDFlipTakeLeftReverseChannel = 1;
     public static final int k_solenoidIDFlipTakeRightForwardChannel = 2;
+    public static final int k_solenoidIDFlipTakeRightReverseChannel = 3;
   }
 
+  // Time Constants
   public static final class TimeConstants {
     public static final double k_spinUpTime = 1.0;
   }
 
   public static final class LiveConstants {
 
+    // Intake Stuff
     public static int _intakeCounter = 0;
     public static boolean _lastIsDetected = false;
+
+    // Limelight Stuff
+    public static boolean _positioned = false;
+    public static boolean _positioning = false;
   }
 }

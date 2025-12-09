@@ -1,8 +1,10 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.signals.AdvancedHallSupportValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.UpdateModeValue;
@@ -11,7 +13,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.units.Units;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.WoodFlipoutConstants;
 
 public final class Configs {
   public static final class MAXSwerveModule {
@@ -25,6 +29,12 @@ public final class Configs {
       double turningFactor = 2 * Math.PI;
       double drivingVelocityFeedForward = 1 / ModuleConstants.kDriveWheelFreeSpeedRps;
 
+      /*
+       ********************************************
+       **   DRIVEBASE NEO VORTEX CONFIGURATION   **
+       ********************************************
+      */
+
       drivingConfig
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(50);
@@ -37,6 +47,12 @@ public final class Configs {
         .pid(0.04, 0, 0)
         .velocityFF(drivingVelocityFeedForward)
         .outputRange(-1, 1);
+
+      /*
+       ********************************************
+       **     DRIVEBASE NEO 550 CONFIGURATION    **
+       ********************************************
+      */
 
       turningConfig
         .idleMode(IdleMode.kBrake)
@@ -69,6 +85,13 @@ public final class Configs {
 
     // Actual stuff to adjust
     static {
+
+      /*
+       ********************************************
+       **         CANRANGE CONFIGURATION         **
+       ********************************************
+      */
+
       CANRangeConfig.FutureProofConfigs = true; // Firmware incompatability safety net
 
       CANRangeConfig.ProximityParams.ProximityThreshold = 0.1; // How far is far enough?
@@ -88,6 +111,13 @@ public final class Configs {
     public static final SparkFlexConfig shooterConfig = new SparkFlexConfig();
 
     static {
+
+      /*
+       ********************************************
+       **        NEO VORTEX CONFIGURATIONS       **
+       ********************************************
+      */
+      
       // Intake Configs
       intakeConfig
         .idleMode(IdleMode.kBrake)
@@ -110,6 +140,13 @@ public final class Configs {
     public static final SparkMaxConfig indexerConfig =  new SparkMaxConfig();
 
     static {
+
+      /*
+       ********************************************
+       **         NEO v1.1 CONFIGURATIONS        **
+       ********************************************
+      */
+
       // Feeder Configs
       feederConfig
         .idleMode(IdleMode.kBrake)
@@ -131,6 +168,13 @@ public final class Configs {
     public static final TalonFXSConfiguration intakeConfig = new TalonFXSConfiguration();
 
     static {
+
+      /*
+       ********************************************
+       **      CTRE TALON FXS CONFIGURATION      **
+       ********************************************
+      */
+      
       intakeConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.5;
       intakeConfig.MotorOutput.PeakForwardDutyCycle = 0.65;
       intakeConfig.MotorOutput.PeakReverseDutyCycle = -0.65;
@@ -138,6 +182,50 @@ public final class Configs {
       intakeConfig.CurrentLimits.SupplyCurrentLimit = 50;
       intakeConfig.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
       intakeConfig.Commutation.AdvancedHallSupport = AdvancedHallSupportValue.Enabled;
+    }
+  }
+
+  // CTRE Talon FX
+  public static final class TalonFXConfigs {
+
+    // Init
+    public static final TalonFXConfiguration woodFlipoutConfig = new TalonFXConfiguration();
+    public static final TalonFXConfiguration woodIntakeConfig = new TalonFXConfiguration();
+
+    static {
+
+      /*
+       ********************************************
+       **      VEX FALCON 500 CONFIGURATIONS     **
+       ********************************************
+      */
+
+      // Wood Flipout Configs
+      woodFlipoutConfig.Slot0.kP = WoodFlipoutConstants.k_woodFlipoutP;
+      woodFlipoutConfig.Slot0.kI = WoodFlipoutConstants.k_woodFlipoutI;
+      woodFlipoutConfig.Slot0.kD = WoodFlipoutConstants.k_woodFlipoutD;
+      woodFlipoutConfig.Slot0.kS = WoodFlipoutConstants.k_woodFlipoutS;
+      woodFlipoutConfig.Slot0.kV = WoodFlipoutConstants.k_woodFlipoutV;
+      woodFlipoutConfig.Slot0.kA = WoodFlipoutConstants.k_woodFlipoutA;
+      woodFlipoutConfig.Slot0.kG = WoodFlipoutConstants.k_woodFlipoutG;
+
+      woodFlipoutConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      woodFlipoutConfig.CurrentLimits.SupplyCurrentLimit = 60;
+      woodFlipoutConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
+      woodFlipoutConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(21).in(Units.Rotations); // TODO: CONFIRM
+      woodFlipoutConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      woodFlipoutConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-5).in(Units.Rotations); // Starting position
+      // woodFlipoutConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+
+      woodFlipoutConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // TODO: CONFIRM
+
+
+      // Intake Configs
+      woodIntakeConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.05;
+      woodIntakeConfig.MotorOutput.PeakForwardDutyCycle = 0.9;
+      woodIntakeConfig.MotorOutput.PeakReverseDutyCycle = -0.9;
+      woodIntakeConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      woodIntakeConfig.CurrentLimits.SupplyCurrentLimit = 60;
     }
   }
 }

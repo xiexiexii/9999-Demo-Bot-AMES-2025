@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.421883322975852,
-        "y": 1.9207675066861236
+        "x": 3.004025843388088,
+        "y": 6.8912972376747
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.678893640864782,
-        "y": 1.8909181153274162
+        "x": 4.104289774625913,
+        "y": 6.898209590375367
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Start Line Stove"
     },
     {
       "anchor": {
-        "x": 12.39408916126598,
-        "y": 1.813667037270286
+        "x": 4.941304096340707,
+        "y": 6.8912972376747
       },
       "prevControl": {
-        "x": 13.143551845809338,
-        "y": 1.8137252825102712
+        "x": 4.446570031245067,
+        "y": 6.887303106802587
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Finish Line Leave"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

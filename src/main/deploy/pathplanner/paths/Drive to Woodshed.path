@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.004025843388088,
+        "y": 6.8912972376747
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.267402677246952,
+        "y": 6.875015463517902
+      },
+      "isLocked": false,
+      "linkedName": "Start Line Stove"
+    },
+    {
+      "anchor": {
+        "x": 8.653840380946612,
+        "y": 6.899618467181966
+      },
+      "prevControl": {
+        "x": 7.7657572108279265,
+        "y": 6.906703751598704
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Woodshed Intake Waypoint"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
