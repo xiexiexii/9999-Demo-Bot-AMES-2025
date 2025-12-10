@@ -2,6 +2,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -12,7 +14,9 @@ import frc.robot.commands.IntakeWoodForSecsCommand;
 import frc.robot.commands.PrimeTowerCommand;
 import frc.robot.commands.SetWoodFlipoutCommand;
 import frc.robot.commands.ShootAutoPositionCommand;
+import frc.robot.commands.ShootWoodCommand;
 import frc.robot.commands.SmartIntakeCommand;
+import frc.robot.commands.SpinUpShootAutoCommand;
 import frc.robot.commands.SpinUpShootCommand;
 import frc.robot.commands.ZeroWoodFlipoutCommand;
 import frc.robot.subsystems.Mechanisms.CANRangeSubsystem;
@@ -80,10 +84,12 @@ public class RobotContainer {
     SmartDashboard.putData("AutoMode", m_chooser);
 
     // Named Command Configuration
-    // NamedCommands.registerCommand("Change LED Color", new LEDColorChangeCommand(m_LEDSubsystem));
+    NamedCommands.registerCommand("Shoot Vegetables", new SpinUpShootAutoCommand(m_towerSubsystem, m_shooterSubsystem));
 
     // Autos
-    m_chooser.addOption("Leave", m_robotDrive.getAuto("Leave"));
+    m_chooser.addOption("[3V] Cabin Park", m_robotDrive.getAuto("Cabin Park"));
+    m_chooser.addOption("[3V, 1W] Leave", m_robotDrive.getAuto("Leave"));
+    m_chooser.addOption("[3V, 2W] Leave", m_robotDrive.getAuto("Firewood x1"));
   }
 
   // Define Button and Axis bindings here
@@ -116,46 +122,45 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
     );
 
-    // Intake - Right Trig
-    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
+    // Intake - Right Bump
+    new JoystickButton(m_driverController, ControllerConstants.k_rightbump)
       .onTrue(
-        intakeParallelCommand()
+        intakeParallelCommand().alongWith(
+        resetWoodFlipoutCommand())
       )
       .onFalse(
         stopIntakeParallelCommand()
     );
 
-    // Intake Wood - Right Bump
-    new JoystickButton(m_driverController, ControllerConstants.k_rightbump)
-    .onTrue(
-      new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "INTAKE")
-    )
-    .whileTrue(
-      new InstantCommand(() -> m_woodIntakeSubsystem.intake(), m_woodIntakeSubsystem)
-    )
-    .onFalse(
-      resetWoodFlipoutCommand().alongWith(
-        new InstantCommand(() -> m_woodIntakeSubsystem.stopIntake(), m_intakeSubsystem)
+    // Intake Wood - Right Trig
+    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.50)
+      .onTrue(
+        new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "INTAKE").alongWith(
+        new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem))
       )
+      .whileTrue(
+        new InstantCommand(() -> m_woodIntakeSubsystem.intake(), m_woodIntakeSubsystem)
+      )
+      .onFalse(
+        finishWoodIntakeCommand()
     );
 
-    // Shoot - Left Trig
-    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+    // Limelight Shoot - Left Bump
+    new JoystickButton(m_driverController, ControllerConstants.k_leftbump) 
       .onTrue(
-        // shootParallelCommandGroup()
         new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
       )
       .onFalse(
         stopShooterCommand()
     );
 
-    // Limelight Shoot - Left Bump
-    new JoystickButton(m_driverController, ControllerConstants.k_leftbump)
+    // Shoot Wood - Left Trig
+    new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.50)
       .onTrue(
-        shootParallelCommandGroup()
+        scoreWoodCommand()
       )
       .onFalse(
-        stopShooterCommand()
+        resetWoodFlipoutCommand()
     );
   }
 
@@ -163,10 +168,16 @@ public class RobotContainer {
     return m_chooser.getSelected();   
   } 
 
-  public ParallelCommandGroup shootParallelCommandGroup() {
-    return new ParallelCommandGroup(
-      new ShootAutoPositionCommand(m_robotDrive),
-      new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
+  public SequentialCommandGroup shootParallelCommandGroup() {
+    return new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
+        new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 0.5)
+      ),
+      new ParallelCommandGroup(
+        new ShootAutoPositionCommand(m_robotDrive),
+        new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
+      )
     );
   }
 
@@ -186,7 +197,7 @@ public class RobotContainer {
 
   public ParallelCommandGroup stopIntakeParallelCommand() {
     return new ParallelCommandGroup(
-      new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
+      // new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
       new PrimeTowerCommand(m_towerSubsystem, m_shooterSubsystem),
       new InstantCommand(() -> m_intakeSubsystem.stopIntake(), m_intakeSubsystem)
     );
@@ -205,7 +216,17 @@ public class RobotContainer {
         new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
         new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem)
       ),
-      new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 3)
+      new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 0.3)
+    );
+  }
+
+  public SequentialCommandGroup scoreWoodCommand() {
+    return new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "SCORE"),
+        new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
+        new ShootWoodCommand(m_woodIntakeSubsystem, 2)
+      )
     );
   }
 }

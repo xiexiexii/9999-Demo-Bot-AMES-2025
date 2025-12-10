@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Vegetables"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Leave"

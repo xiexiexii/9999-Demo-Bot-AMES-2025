@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.WoodFlipoutConstants;
 import frc.robot.subsystems.Mechanisms.WoodFlipoutSubsystem;
@@ -14,6 +15,8 @@ public class ZeroWoodFlipoutCommand extends Command {
   // Uses Wood Flipout Subsystem
   WoodFlipoutSubsystem m_woodFlipoutSubsystem;
   boolean m_finished;
+
+  Timer m_timer = new Timer();
 
   // Constructor
   public ZeroWoodFlipoutCommand(WoodFlipoutSubsystem woodFlipoutSubsystem) {
@@ -30,16 +33,17 @@ public class ZeroWoodFlipoutCommand extends Command {
   
   // Actual command
   public void execute() {
-    if(m_woodFlipoutSubsystem.getCurrentPosition() < 0.5 && m_woodFlipoutSubsystem.getCurrentVelocity() == 0) { // TODO: CHECK NUMBERS
-      m_finished = true;
+    if(m_woodFlipoutSubsystem.getCurrentPosition() < 0.5 && m_woodFlipoutSubsystem.getCurrentVelocity() < 0.03) { // TODO: CHECK NUMBERS
+      m_woodFlipoutSubsystem.setNeutral();
     }
+
+    if(m_timer.hasElapsed(0.5)) m_finished = true;
   }
 
   // Stuff that happens when command is over
   public void end(boolean interrupted) {
 
-    // Neutral Motors and Reset Encoder Values
-    m_woodFlipoutSubsystem.setNeutral();
+    // Reset Encoder Values
     m_woodFlipoutSubsystem.resetSensorPosition(WoodFlipoutConstants.k_woodFlipoutHomeAngle);
   }
 

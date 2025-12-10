@@ -133,7 +133,8 @@ public final class Constants {
     public static final double k_intakeSpeed = 0.75;
 
     // Wood Intake
-    public static final double k_woodIntakeSpeed = 0.4;
+    public static final double k_woodIntakeSpeed = 0.235;
+    public static final double k_woodShooterSpeed = 0.40;
 
     // Feeder
     public static final double k_feederSpeed = 0.65;
@@ -150,7 +151,7 @@ public final class Constants {
   public static final class WoodFlipoutConstants {
 
     // Wood Flipout TODO: TUNE US!
-    public static final double k_woodFlipoutP = 0.5; 
+    public static final double k_woodFlipoutP = 0.35; 
     public static final double k_woodFlipoutI = 0.1;
     public static final double k_woodFlipoutD = 0.0;
     public static final double k_woodFlipoutS = 0.4;
@@ -158,10 +159,10 @@ public final class Constants {
     public static final double k_woodFlipoutA = 0.0;
     public static final double k_woodFlipoutG = 0.5;
 
-    public static final Angle k_woodFlipoutResetAngle = edu.wpi.first.units.Units.Rotations.of(-5);
+    public static final Angle k_woodFlipoutResetAngle = edu.wpi.first.units.Units.Rotations.of(-2);
     public static final Angle k_woodFlipoutHomeAngle = edu.wpi.first.units.Units.Rotations.of(0);
-    public static final Angle k_woodFlipoutScoreAngle = edu.wpi.first.units.Units.Rotations.of(7.5); 
-    public static final Angle k_woodFlipoutIntakeAngle = edu.wpi.first.units.Units.Rotations.of(19.8); // TODO: Tune us!
+    public static final Angle k_woodFlipoutScoreAngle = edu.wpi.first.units.Units.Rotations.of(11); 
+    public static final Angle k_woodFlipoutIntakeAngle = edu.wpi.first.units.Units.Rotations.of(21.3); // TODO: Tune us!
   }
 
   // Vision Constants
@@ -195,6 +196,9 @@ public final class Constants {
   // Time Constants
   public static final class TimeConstants {
     public static final double k_spinUpTime = 1.0;
+    public static final double k_shootTime = 3.0;
+
+    public static final double k_holdWoodTime = 0.2;
   }
 
   public static final class LiveConstants {

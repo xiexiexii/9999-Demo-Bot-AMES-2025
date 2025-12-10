@@ -212,9 +212,9 @@ public final class Configs {
       woodFlipoutConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       woodFlipoutConfig.CurrentLimits.SupplyCurrentLimit = 60;
       woodFlipoutConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
-      woodFlipoutConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(21).in(Units.Rotations); // TODO: CONFIRM
+      woodFlipoutConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(22).in(Units.Rotations); // TODO: CONFIRM
       woodFlipoutConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-      woodFlipoutConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-5).in(Units.Rotations); // Starting position
+      woodFlipoutConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(-2).in(Units.Rotations); // Starting position
       // woodFlipoutConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
       woodFlipoutConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive; // TODO: CONFIRM

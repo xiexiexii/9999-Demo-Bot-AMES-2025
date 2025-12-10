@@ -31,7 +31,7 @@ public class WoodIntakeSubsystem extends SubsystemBase{
 
   // Shoot Wood Into Stove
   public void reverseIntake() {
-    m_intake.set(-MotorSpeedConstants.k_woodIntakeSpeed);
+    m_intake.set(-MotorSpeedConstants.k_woodShooterSpeed);
   }
 
   public void periodic() {}

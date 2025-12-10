@@ -2,18 +2,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import frc.robot.Constants.TimeConstants;
 import frc.robot.subsystems.Mechanisms.WoodIntakeSubsystem;
 
-public class IntakeWoodForSecsCommand extends Command{
+public class ShootWoodCommand extends Command{
    
     // Instantiate stuff
     WoodIntakeSubsystem m_woodIntakeSubsystem;
 
     Timer m_timer = new Timer();
     double m_seconds;
+    double m_holdWoodSeconds = TimeConstants.k_holdWoodTime;
 
-    public IntakeWoodForSecsCommand(WoodIntakeSubsystem woodIntakeSubsystem, double seconds) {
+    public ShootWoodCommand(WoodIntakeSubsystem woodIntakeSubsystem, double seconds) {
 
       // Definitions and setting parameters equal to members
       m_woodIntakeSubsystem = woodIntakeSubsystem;
@@ -30,7 +31,7 @@ public class IntakeWoodForSecsCommand extends Command{
         
 
     public void execute() {
-      m_woodIntakeSubsystem.intake();
+      if (m_timer.hasElapsed(m_holdWoodSeconds)) m_woodIntakeSubsystem.reverseIntake();
     }
 
     public void end(boolean interrupted){
