@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4658238023622803,
+        "x": 1.7861390320727744,
         "y": 6.8912972376747
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5660877336001082,
-        "y": 6.898209590375367
+        "x": 2.0437943299217833,
+        "y": 6.910977019985883
       },
       "isLocked": false,
-      "linkedName": "Wood Score Waypoint"
+      "linkedName": "Start Line Stove"
     },
     {
       "anchor": {
-        "x": 4.941304096340707,
+        "x": 1.4658238023622803,
         "y": 6.8912972376747
       },
       "prevControl": {
-        "x": 4.446570031245067,
-        "y": 6.887303106802587
+        "x": 1.2159017410862725,
+        "y": 6.885055179716666
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Finish Line Leave"
+      "linkedName": "Wood Score Waypoint"
     }
   ],
   "rotationTargets": [],

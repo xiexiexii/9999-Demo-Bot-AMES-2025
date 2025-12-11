@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.8696587909661482,
-        "y": 6.899618467181966
+        "x": 1.4658238023622803,
+        "y": 6.8912972376747
       },
       "prevControl": {
-        "x": 1.334874389188497,
-        "y": 6.894893858797449
+        "x": 0.9310394005846292,
+        "y": 6.886572629290183
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Wood Score Waypoint"
     }
   ],
   "rotationTargets": [],

@@ -11,6 +11,18 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Start to Line to Wood Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -34,6 +46,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
           }
         }
       ]

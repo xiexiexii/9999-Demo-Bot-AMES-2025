@@ -34,8 +34,8 @@ public class CANRangeSubsystem extends SubsystemBase{
     SmartDashboard.putBoolean("Limelight-Intake/Intake TV", LimelightHelpers.getTV(VisionConstants.k_intakeLimelightName));
     SmartDashboard.putString("Limelight-Intake/Class", LimelightHelpers.getDetectorClass(VisionConstants.k_intakeLimelightName));
 
-    SmartDashboard.putNumber("Limelight-Shoot/Shoot TX", LimelightHelpers.getTX(VisionConstants.k_intakeLimelightName));
-    SmartDashboard.putNumber("Limelight-Shoot/Shoot TY", LimelightHelpers.getTY(VisionConstants.k_intakeLimelightName));
-    SmartDashboard.putBoolean("Limelight-Shoot/Shoot TV", LimelightHelpers.getTV(VisionConstants.k_intakeLimelightName));
+    SmartDashboard.putNumber("Limelight-Shoot/Shoot TX", LimelightHelpers.getTX(VisionConstants.k_shooterLimelightName));
+    SmartDashboard.putNumber("Limelight-Shoot/Shoot TY", LimelightHelpers.getTY(VisionConstants.k_shooterLimelightName));
+    SmartDashboard.putBoolean("Limelight-Shoot/Shoot TV", LimelightHelpers.getTV(VisionConstants.k_shooterLimelightName));
   }
 }

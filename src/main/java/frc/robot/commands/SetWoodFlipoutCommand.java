@@ -38,9 +38,14 @@ public class SetWoodFlipoutCommand extends Command {
       m_woodFlipoutSubsystem.setPosition(WoodFlipoutConstants.k_woodFlipoutIntakeAngle);
     }
 
-    // Raise to Scoring Position
+    // Lower to Scoring Position
     if(m_position.equals("SCORE")) {
       m_woodFlipoutSubsystem.setPosition(WoodFlipoutConstants.k_woodFlipoutScoreAngle);
+    }
+
+    // Lower to Limelight Position
+    if(m_position.equals("LIMELIGHT")) {
+      m_woodFlipoutSubsystem.setPosition(WoodFlipoutConstants.k_woodFlipoutLimelightAngle);
     }
 
     // Raise to Stowed Position

@@ -148,10 +148,13 @@ public class RobotContainer {
     // Limelight Shoot - Left Bump
     new JoystickButton(m_driverController, ControllerConstants.k_leftbump) 
       .onTrue(
-        new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
+        shootParallelCommandGroup()
+        // new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
       )
       .onFalse(
-        stopShooterCommand()
+        stopShooterCommand().alongWith(
+        resetWoodFlipoutCommand()
+      )
     );
 
     // Shoot Wood - Left Trig
@@ -164,14 +167,18 @@ public class RobotContainer {
     );
   }
 
+  // Returns the command to run in autonomous
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();   
   } 
 
+  // COMMAND GROUPS ARE BELOW
+
+  // Shoots Vegetables
   public SequentialCommandGroup shootParallelCommandGroup() {
     return new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
+        new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "LIMELIGHT"),
         new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 0.5)
       ),
       new ParallelCommandGroup(
@@ -181,6 +188,7 @@ public class RobotContainer {
     );
   }
 
+  // Stops Shooter
   public ParallelCommandGroup stopShooterCommand() {
     return new ParallelCommandGroup(
       new InstantCommand(() -> m_shooterSubsystem.stopShooter(), m_shooterSubsystem),
@@ -188,6 +196,7 @@ public class RobotContainer {
     );
   }
 
+  // Intake Vegetables
   public ParallelCommandGroup intakeParallelCommand() {
     return new ParallelCommandGroup(
       new InstantCommand(() -> m_flipTakeSubsystem.extend(), m_flipTakeSubsystem),
@@ -195,6 +204,7 @@ public class RobotContainer {
     );
   }
 
+  // Stop Running Vegetable Intake
   public ParallelCommandGroup stopIntakeParallelCommand() {
     return new ParallelCommandGroup(
       // new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
@@ -203,6 +213,7 @@ public class RobotContainer {
     );
   }
 
+  // Reset Wood Flipout
   public SequentialCommandGroup resetWoodFlipoutCommand() {
     return new SequentialCommandGroup(
       new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
@@ -210,6 +221,7 @@ public class RobotContainer {
     );
   }
 
+  // Finish Wood Intake Command
   public ParallelDeadlineGroup finishWoodIntakeCommand() {
     return new ParallelDeadlineGroup(
       new SequentialCommandGroup(
@@ -220,6 +232,7 @@ public class RobotContainer {
     );
   }
 
+  // Score Wood
   public SequentialCommandGroup scoreWoodCommand() {
     return new SequentialCommandGroup(
       new ParallelCommandGroup(

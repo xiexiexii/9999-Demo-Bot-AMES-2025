@@ -143,7 +143,7 @@ public final class Constants {
     public static final double k_indexerSpeed = 0.5;
 
     // Shooter 
-    public static final double k_shooterSpeed = 0.90;
+    public static final double k_shooterSpeed = 0.70;
     public static final double k_shooterIndexSpeed = 0.05;
   }
 
@@ -161,6 +161,7 @@ public final class Constants {
 
     public static final Angle k_woodFlipoutResetAngle = edu.wpi.first.units.Units.Rotations.of(-2);
     public static final Angle k_woodFlipoutHomeAngle = edu.wpi.first.units.Units.Rotations.of(0);
+    public static final Angle k_woodFlipoutLimelightAngle = edu.wpi.first.units.Units.Rotations.of(5);
     public static final Angle k_woodFlipoutScoreAngle = edu.wpi.first.units.Units.Rotations.of(11); 
     public static final Angle k_woodFlipoutIntakeAngle = edu.wpi.first.units.Units.Rotations.of(21.3); // TODO: Tune us!
   }
@@ -173,11 +174,11 @@ public final class Constants {
     public static String k_shooterLimelightName = "limelight-three";
 
     // PID Stuff
-    public static final double kP_aim = 0.005;
+    public static final double kP_aim = 0.005; 
     public static final double kI_aim = 0.000;
     public static final double kD_aim = 0.000;
 
-    public static final double kP_range = 0.3;
+    public static final double kP_range = 0.01; // 0.3
     public static final double kI_range = 0.000;
     public static final double kD_range = 0.000;
 

@@ -10,9 +10,10 @@ import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 
 // CAD:
-// Prog TODO: Autos, Tune LL Autoposition, Tune Wood Flipout
-// Mech: TODO: Hard Stop
-// Comp TODO: Tech Binder, Spec Sheet, Scouting Form, Strategy, Preflight Checklist, FLL Shirts, Weights
+// Prog TODO: Tune LL Crosshairs, Shooter Power, Autos
+// Mech: TODO: Cut Spare Parts, Replace Wood Parts
+// Comp TODO: Tech Binder, Spec Sheet, Scouting Form, Strategy, Preflight Checklist,
+// Packing TODO: Weights
 
 // Drives Robot to Intake Vegetables
 public class IntakeAutoPositionCommand extends Command {
