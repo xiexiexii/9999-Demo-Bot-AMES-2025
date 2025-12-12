@@ -76,9 +76,9 @@ public final class Constants {
       / kDrivingMotorReduction;
   }
 
-  // The one random constant that tells you how fast a NEO goes
+  // The one random constant that tells you how fast a NEO VORTEX goes
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 6784; // TODO: Does this work?
+    public static final double kFreeSpeedRpm = 6784;
   }
 
   // Controller Ports, Deadband, Buttons and Triggers
@@ -144,13 +144,14 @@ public final class Constants {
 
     // Shooter 
     public static final double k_shooterSpeed = 0.70;
+    public static final double k_shooterSpeedSnipe = 0.90;
     public static final double k_shooterIndexSpeed = 0.05;
   }
 
   // PID stuff
   public static final class WoodFlipoutConstants {
 
-    // Wood Flipout TODO: TUNE US!
+    // Wood Flipout
     public static final double k_woodFlipoutP = 0.35; 
     public static final double k_woodFlipoutI = 0.1;
     public static final double k_woodFlipoutD = 0.0;
@@ -163,7 +164,7 @@ public final class Constants {
     public static final Angle k_woodFlipoutHomeAngle = edu.wpi.first.units.Units.Rotations.of(0);
     public static final Angle k_woodFlipoutLimelightAngle = edu.wpi.first.units.Units.Rotations.of(5);
     public static final Angle k_woodFlipoutScoreAngle = edu.wpi.first.units.Units.Rotations.of(11); 
-    public static final Angle k_woodFlipoutIntakeAngle = edu.wpi.first.units.Units.Rotations.of(21.3); // TODO: Tune us!
+    public static final Angle k_woodFlipoutIntakeAngle = edu.wpi.first.units.Units.Rotations.of(21.3);
   }
 
   // Vision Constants

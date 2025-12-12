@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.WoodFlipout;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.WoodFlipoutConstants;
-import frc.robot.subsystems.Mechanisms.WoodFlipoutSubsystem;
+import frc.robot.subsystems.WoodFlipout.WoodFlipoutSubsystem;
 
 // Zero Flipout (for the same reason as elevator)
 public class ZeroWoodFlipoutCommand extends Command {
@@ -29,15 +29,18 @@ public class ZeroWoodFlipoutCommand extends Command {
   // Reset timer when the command starts executing
   public void initialize() {
     m_finished = false;
+
+    m_timer.start();
+    m_timer.reset();
   }
   
   // Actual command
   public void execute() {
-    if(m_woodFlipoutSubsystem.getCurrentPosition() < 0.5 && m_woodFlipoutSubsystem.getCurrentVelocity() < 0.03) { // TODO: CHECK NUMBERS
+    if(m_woodFlipoutSubsystem.getCurrentPosition() < 0.5 && m_woodFlipoutSubsystem.getCurrentVelocity() < 0.03) {
       m_woodFlipoutSubsystem.setNeutral();
     }
 
-    if(m_timer.hasElapsed(0.5)) m_finished = true;
+    if(m_timer.hasElapsed(1)) m_finished = true;
   }
 
   // Stuff that happens when command is over

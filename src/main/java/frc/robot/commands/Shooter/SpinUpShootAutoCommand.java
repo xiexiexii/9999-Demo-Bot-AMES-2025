@@ -1,21 +1,22 @@
-package frc.robot.commands;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TimeConstants;
-import frc.robot.subsystems.Mechanisms.ShooterSubsystem;
-import frc.robot.subsystems.Mechanisms.TowerSubsystem;
+import frc.robot.subsystems.Superstructure.ShooterSubsystem;
+import frc.robot.subsystems.Superstructure.TowerSubsystem;
 
-public class SpinUpShootCommand extends Command{
+public class SpinUpShootAutoCommand extends Command{
    
     // Instantiate stuff
     TowerSubsystem m_towerSubsystem;
     ShooterSubsystem m_shooterSubsystem;
 
     Timer m_timer = new Timer();
-    double m_seconds = TimeConstants.k_spinUpTime;
+    double m_spinUpTime = TimeConstants.k_spinUpTime;
+    double m_shootTime = TimeConstants.k_shootTime;
 
-    public SpinUpShootCommand(TowerSubsystem towerSubsystem, ShooterSubsystem shooterSubsystem) {
+    public SpinUpShootAutoCommand(TowerSubsystem towerSubsystem, ShooterSubsystem shooterSubsystem) {
 
       // Definitions and setting parameters equal to members
       m_towerSubsystem = towerSubsystem;
@@ -34,14 +35,19 @@ public class SpinUpShootCommand extends Command{
 
     public void execute() {
       m_shooterSubsystem.shoot();
+
+      if(m_timer.hasElapsed(m_spinUpTime)) {
+        m_towerSubsystem.indexAll();
+      }
     }
 
     public void end(boolean interrupted){
-      m_towerSubsystem.indexAll();
+      m_shooterSubsystem.stopShooter();
+      m_towerSubsystem.stopAll();
     }
 
     public boolean isFinished(){
-      return m_timer.hasElapsed(m_seconds);
+      return m_timer.hasElapsed(m_shootTime);
     }
 
 }

@@ -9,25 +9,27 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.IntakeAutoPositionCommand;
-import frc.robot.commands.IntakeWoodForSecsCommand;
-import frc.robot.commands.PrimeTowerCommand;
-import frc.robot.commands.SetWoodFlipoutCommand;
-import frc.robot.commands.ShootAutoPositionCommand;
-import frc.robot.commands.ShootWoodCommand;
-import frc.robot.commands.SmartIntakeCommand;
-import frc.robot.commands.SpinUpShootAutoCommand;
-import frc.robot.commands.SpinUpShootCommand;
-import frc.robot.commands.ZeroWoodFlipoutCommand;
-import frc.robot.subsystems.Mechanisms.CANRangeSubsystem;
-import frc.robot.subsystems.Mechanisms.FlipTakeSubsystem;
-import frc.robot.subsystems.Mechanisms.IntakeSubsystem;
-import frc.robot.subsystems.Mechanisms.ShooterSubsystem;
-import frc.robot.subsystems.Mechanisms.TowerSubsystem;
-import frc.robot.subsystems.Mechanisms.WoodFlipoutSubsystem;
-import frc.robot.subsystems.Mechanisms.WoodIntakeSubsystem;
+import frc.robot.commands.WoodFlipout.IntakeWoodForSecsCommand;
+import frc.robot.commands.WoodFlipout.SetWoodFlipoutCommand;
+import frc.robot.commands.WoodFlipout.ShootWoodCommand;
+import frc.robot.commands.WoodFlipout.ZeroWoodFlipoutCommand;
+import frc.robot.commands.Limelight.IntakeAutoPositionCommand;
+import frc.robot.commands.Limelight.ShootAutoPositionCommand;
+import frc.robot.commands.Shooter.SpinUpShootAutoCommand;
+import frc.robot.commands.Shooter.SpinUpShootCommand;
+import frc.robot.commands.Shooter.SpinUpSnipeAutoCommand;
+import frc.robot.commands.Superstructure.PrimeTowerCommand;
+import frc.robot.commands.Superstructure.SmartIntakeCommand;
+import frc.robot.subsystems.Superstructure.CANRangeSubsystem;
+import frc.robot.subsystems.Superstructure.ShooterSubsystem;
+import frc.robot.subsystems.Superstructure.TowerSubsystem;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
+import frc.robot.subsystems.VegetableFlipout.FlipTakeSubsystem;
+import frc.robot.subsystems.VegetableFlipout.IntakeSubsystem;
+import frc.robot.subsystems.WoodFlipout.WoodFlipoutSubsystem;
+import frc.robot.subsystems.WoodFlipout.WoodIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -85,11 +87,18 @@ public class RobotContainer {
 
     // Named Command Configuration
     NamedCommands.registerCommand("Shoot Vegetables", new SpinUpShootAutoCommand(m_towerSubsystem, m_shooterSubsystem));
+    NamedCommands.registerCommand("Snipe Vegetables", new SpinUpSnipeAutoCommand(m_towerSubsystem, m_shooterSubsystem));
+    NamedCommands.registerCommand("Score Wood", scoreWoodCommand());
+    NamedCommands.registerCommand("Extend Wood Flipout", new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "INTAKE"));
+    NamedCommands.registerCommand("Retract Wood Flipout", finishWoodIntakeCommand());
+    NamedCommands.registerCommand("Intake Wood", new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 3));
 
-    // Autos
-    m_chooser.addOption("[3V] Cabin Park", m_robotDrive.getAuto("Cabin Park"));
-    m_chooser.addOption("[3V, 1W] Leave", m_robotDrive.getAuto("Leave"));
-    m_chooser.addOption("[3V, 2W] Leave", m_robotDrive.getAuto("Firewood x1"));
+    // Autos TODO: DS always blue?
+    m_chooser.addOption("[40 pts] 3V-2W Firewood Supercarry", m_robotDrive.getAuto("[3V 2W] Firewood Supercarry"));
+    m_chooser.addOption("[28 pts] 3V-0W Cabin Park RED", m_robotDrive.getAuto("[3V] Cabin Park RED"));
+    m_chooser.addOption("[28 pts] 3V-0W Cabin Park BLUE", m_robotDrive.getAuto("[3V] Cabin Park BLUE"));
+    m_chooser.addOption("[32 pts] 3V-1W Leave", m_robotDrive.getAuto("[3V 1W] Charged Leave"));
+    m_chooser.addOption("[2 pts] Leave", m_robotDrive.getAuto("Leave"));
   }
 
   // Define Button and Axis bindings here
@@ -148,22 +157,16 @@ public class RobotContainer {
     // Limelight Shoot - Left Bump
     new JoystickButton(m_driverController, ControllerConstants.k_leftbump) 
       .onTrue(
-        shootParallelCommandGroup()
-        // new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
+        shootVegetableCommandGroup()
       )
       .onFalse(
-        stopShooterCommand().alongWith(
-        resetWoodFlipoutCommand()
-      )
+        stopShooterCommand()
     );
 
     // Shoot Wood - Left Trig
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.50)
       .onTrue(
         scoreWoodCommand()
-      )
-      .onFalse(
-        resetWoodFlipoutCommand()
     );
   }
 
@@ -175,7 +178,7 @@ public class RobotContainer {
   // COMMAND GROUPS ARE BELOW
 
   // Shoots Vegetables
-  public SequentialCommandGroup shootParallelCommandGroup() {
+  public SequentialCommandGroup shootVegetableCommandGroup() {
     return new SequentialCommandGroup(
       new ParallelCommandGroup(
         new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "LIMELIGHT"),
@@ -184,7 +187,9 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new ShootAutoPositionCommand(m_robotDrive),
         new SpinUpShootCommand(m_towerSubsystem, m_shooterSubsystem)
-      )
+      ),
+      new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
+      new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem)
     );
   }
 
@@ -239,7 +244,19 @@ public class RobotContainer {
         new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "SCORE"),
         new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
         new ShootWoodCommand(m_woodIntakeSubsystem, 2)
-      )
+      ),
+      new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
+      new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
+      Commands.print("SCORE DONE!")
+    );
+  }
+
+  // Score Wood
+  public SequentialCommandGroup resetWoodCommand() {
+    return new SequentialCommandGroup(
+      new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
+      new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
+      Commands.print("SCORE DONE!")
     );
   }
 }

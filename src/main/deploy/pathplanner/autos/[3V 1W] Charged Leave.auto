@@ -23,31 +23,6 @@
           }
         },
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Drive to Woodshed"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "WS to Stove"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Score Wood"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Leave"

@@ -1,12 +1,12 @@
-package frc.robot.commands;
+package frc.robot.commands.Superstructure;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LiveConstants;
-import frc.robot.subsystems.Mechanisms.CANRangeSubsystem;
-import frc.robot.subsystems.Mechanisms.IntakeSubsystem;
-import frc.robot.subsystems.Mechanisms.ShooterSubsystem;
-import frc.robot.subsystems.Mechanisms.TowerSubsystem;
+import frc.robot.subsystems.Superstructure.CANRangeSubsystem;
+import frc.robot.subsystems.Superstructure.ShooterSubsystem;
+import frc.robot.subsystems.Superstructure.TowerSubsystem;
+import frc.robot.subsystems.VegetableFlipout.IntakeSubsystem;
 
 public class SmartIntakeCommand extends Command{
    

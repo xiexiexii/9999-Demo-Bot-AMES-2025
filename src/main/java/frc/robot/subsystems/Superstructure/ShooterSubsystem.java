@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Mechanisms;
+package frc.robot.subsystems.Superstructure;
 
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -22,9 +22,14 @@ public class ShooterSubsystem extends SubsystemBase{
     m_shooter.configure(VortexConfigs.shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
-  // Intake Stuff
+  // Shoot Stuff
   public void shoot() {
     m_shooter.set(-MotorSpeedConstants.k_shooterSpeed);
+  }
+
+  // For snipe shot in auto
+  public void shootSnipe() {
+    m_shooter.set(-MotorSpeedConstants.k_shooterSpeedSnipe);
   }
 
   public void stopShooter() {

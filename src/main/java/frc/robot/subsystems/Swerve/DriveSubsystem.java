@@ -258,7 +258,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Zeros the robot heading
   public void zeroHeading() {
-    m_gyro.reset(); // TODO: Figure this out
+    m_gyro.reset(); 
   }
 
   // Return Robot Headings, from -180 to 180 degrees

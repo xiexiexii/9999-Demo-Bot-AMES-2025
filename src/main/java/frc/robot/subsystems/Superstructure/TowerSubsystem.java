@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Mechanisms;
+package frc.robot.subsystems.Superstructure;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;

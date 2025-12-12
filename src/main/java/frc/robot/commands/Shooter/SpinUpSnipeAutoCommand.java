@@ -1,12 +1,12 @@
-package frc.robot.commands;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TimeConstants;
-import frc.robot.subsystems.Mechanisms.ShooterSubsystem;
-import frc.robot.subsystems.Mechanisms.TowerSubsystem;
+import frc.robot.subsystems.Superstructure.ShooterSubsystem;
+import frc.robot.subsystems.Superstructure.TowerSubsystem;
 
-public class SpinUpShootAutoCommand extends Command{
+public class SpinUpSnipeAutoCommand extends Command{
    
     // Instantiate stuff
     TowerSubsystem m_towerSubsystem;
@@ -16,7 +16,7 @@ public class SpinUpShootAutoCommand extends Command{
     double m_spinUpTime = TimeConstants.k_spinUpTime;
     double m_shootTime = TimeConstants.k_shootTime;
 
-    public SpinUpShootAutoCommand(TowerSubsystem towerSubsystem, ShooterSubsystem shooterSubsystem) {
+    public SpinUpSnipeAutoCommand(TowerSubsystem towerSubsystem, ShooterSubsystem shooterSubsystem) {
 
       // Definitions and setting parameters equal to members
       m_towerSubsystem = towerSubsystem;
@@ -32,9 +32,8 @@ public class SpinUpShootAutoCommand extends Command{
       m_timer.reset();
     }
         
-
     public void execute() {
-      m_shooterSubsystem.shoot();
+      m_shooterSubsystem.shootSnipe();
 
       if(m_timer.hasElapsed(m_spinUpTime)) {
         m_towerSubsystem.indexAll();

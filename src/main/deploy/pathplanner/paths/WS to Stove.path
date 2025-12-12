@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.653840380946612,
-        "y": 6.899618467181966
+        "x": 8.936650640604968,
+        "y": 6.8912972376747
       },
       "prevControl": null,
       "nextControl": {
-        "x": 9.58872631625949,
-        "y": 6.905884933626841
+        "x": 9.871536575917846,
+        "y": 6.897563704119575
       },
       "isLocked": false,
       "linkedName": "Woodshed Intake Waypoint"
     },
     {
       "anchor": {
-        "x": 1.4658238023622803,
+        "x": 1.5367550941000554,
         "y": 6.8912972376747
       },
       "prevControl": {
-        "x": 0.9310394005846292,
+        "x": 1.0019706923224043,
         "y": 6.886572629290183
       },
       "nextControl": null,
@@ -31,9 +31,22 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Wood",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 0.35,
+      "command": null
+    },
+    {
+      "name": "Retract Wood Flipout",
+      "waypointRelativePos": 0.35,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
