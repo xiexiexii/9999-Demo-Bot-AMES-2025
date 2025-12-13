@@ -40,7 +40,7 @@ public class ZeroWoodFlipoutCommand extends Command {
       m_woodFlipoutSubsystem.setNeutral();
     }
 
-    if(m_timer.hasElapsed(1)) m_finished = true;
+    if(m_timer.hasElapsed(0.8)) m_finished = true;
   }
 
   // Stuff that happens when command is over

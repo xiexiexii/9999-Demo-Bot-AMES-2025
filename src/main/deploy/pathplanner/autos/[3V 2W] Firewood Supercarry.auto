@@ -33,9 +33,28 @@
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "WS to Stove"
+                  "name": "Extend Wood Flipout"
+                }
+              },
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "WS to Stove"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Wood"
+                      }
+                    }
+                  ]
                 }
               },
               {

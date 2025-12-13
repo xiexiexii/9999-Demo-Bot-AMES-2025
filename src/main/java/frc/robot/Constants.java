@@ -134,6 +134,8 @@ public final class Constants {
 
     // Wood Intake
     public static final double k_woodIntakeSpeed = 0.235;
+    public static final double k_woodIntakeAutoSpeed = 0.27;
+
     public static final double k_woodShooterSpeed = 0.40;
 
     // Feeder

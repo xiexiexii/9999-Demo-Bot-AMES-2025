@@ -24,6 +24,10 @@ public class WoodIntakeSubsystem extends SubsystemBase{
     m_intake.set(MotorSpeedConstants.k_woodIntakeSpeed);
   }
 
+  public void intakeAuto() {
+    m_intake.set(MotorSpeedConstants.k_woodIntakeAutoSpeed);
+  }
+
   // Stop!
   public void stopIntake() {
     m_intake.set(0);

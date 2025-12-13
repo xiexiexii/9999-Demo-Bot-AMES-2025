@@ -11,8 +11,8 @@ import frc.robot.subsystems.Swerve.DriveSubsystem;
 
 // CAD:
 // Prog TODO: Tune LL Crosshairs, Shooter Power, Autos, Elastic Dashboard
-// Mech: TODO: Cut Spare Parts, Replace Wood Parts
-// Comp TODO: Tech Binder, Spec Sheet, Scouting Form, Strategy, Preflight Checklist,
+// Mech: TODO: Replace Wood Parts
+// Comp TODO: Tech Binder, Spec Sheet, Scouting Form, Preflight Checklist,
 // Packing TODO: Weights
 
 // Drives Robot to Intake Vegetables

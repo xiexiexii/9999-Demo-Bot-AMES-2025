@@ -3,12 +3,16 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.WoodFlipoutConstants;
+import frc.robot.commands.WoodFlipout.IntakeWoodForSecsAutoCommand;
 import frc.robot.commands.WoodFlipout.IntakeWoodForSecsCommand;
 import frc.robot.commands.WoodFlipout.SetWoodFlipoutCommand;
 import frc.robot.commands.WoodFlipout.ShootWoodCommand;
@@ -89,12 +93,18 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot Vegetables", new SpinUpShootAutoCommand(m_towerSubsystem, m_shooterSubsystem));
     NamedCommands.registerCommand("Snipe Vegetables", new SpinUpSnipeAutoCommand(m_towerSubsystem, m_shooterSubsystem));
     NamedCommands.registerCommand("Score Wood", scoreWoodCommand());
+
+    // Trigger Configuration
+    // new EventTrigger("Extend Wood Flipout").onTrue(new InstantCommand(() -> m_woodFlipoutSubsystem.setPosition(WoodFlipoutConstants.k_woodFlipoutIntakeAngle), m_woodFlipoutSubsystem));
+    // new EventTrigger("Retract Wood Flipout").onTrue(finishWoodIntakeCommand());
+    // new EventTrigger("Intake Wood").onTrue(new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 3));
+
     NamedCommands.registerCommand("Extend Wood Flipout", new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "INTAKE"));
-    NamedCommands.registerCommand("Retract Wood Flipout", finishWoodIntakeCommand());
-    NamedCommands.registerCommand("Intake Wood", new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 3));
+    // NamedCommands.registerCommand("Retract Wood Flipout", finishWoodIntakeCommand());
+    NamedCommands.registerCommand("Intake Wood", intakeWoodAutoCommand());
 
     // Autos TODO: DS always blue?
-    m_chooser.addOption("[40 pts] 3V-2W Firewood Supercarry", m_robotDrive.getAuto("[3V 2W] Firewood Supercarry"));
+    m_chooser.addOption("[40 pts] 3V-2W Air Fryer Supercarry", m_robotDrive.getAuto("[3V 2W] Firewood Supercarry"));
     m_chooser.addOption("[28 pts] 3V-0W Cabin Park RED", m_robotDrive.getAuto("[3V] Cabin Park RED"));
     m_chooser.addOption("[28 pts] 3V-0W Cabin Park BLUE", m_robotDrive.getAuto("[3V] Cabin Park BLUE"));
     m_chooser.addOption("[32 pts] 3V-1W Leave", m_robotDrive.getAuto("[3V 1W] Charged Leave"));
@@ -243,11 +253,21 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "SCORE"),
         new InstantCommand(() -> m_flipTakeSubsystem.retract(), m_flipTakeSubsystem),
-        new ShootWoodCommand(m_woodIntakeSubsystem, 2)
+        new ShootWoodCommand(m_woodIntakeSubsystem, 1.2)
       ),
       new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
       new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
       Commands.print("SCORE DONE!")
+    );
+  }
+
+  // Intake Wood in Auto
+  public SequentialCommandGroup intakeWoodAutoCommand() {
+    return new SequentialCommandGroup(
+      new IntakeWoodForSecsAutoCommand(m_woodIntakeSubsystem, 1.1),
+      new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
+      new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
+      Commands.print("INTAKE DONE!")
     );
   }
 
