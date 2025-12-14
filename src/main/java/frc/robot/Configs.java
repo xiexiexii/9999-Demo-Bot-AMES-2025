@@ -127,7 +127,7 @@ public final class Configs {
       // Tower Configs
       shooterConfig
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(50)
+      .smartCurrentLimit(60)
       .openLoopRampRate(0.5);
     }
   }
@@ -156,7 +156,7 @@ public final class Configs {
       // Shooter Configs
       indexerConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(60)
+        .smartCurrentLimit(50)
         .openLoopRampRate(0.5);
     }
   }

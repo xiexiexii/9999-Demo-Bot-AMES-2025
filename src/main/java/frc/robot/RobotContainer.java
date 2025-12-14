@@ -3,15 +3,12 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.Constants.WoodFlipoutConstants;
 import frc.robot.commands.WoodFlipout.IntakeWoodForSecsAutoCommand;
 import frc.robot.commands.WoodFlipout.IntakeWoodForSecsCommand;
 import frc.robot.commands.WoodFlipout.SetWoodFlipoutCommand;
@@ -177,7 +174,10 @@ public class RobotContainer {
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.50)
       .onTrue(
         scoreWoodCommand()
-    );
+      )
+      .onFalse(
+        resetWoodFlipoutCommand()
+      );
   }
 
   // Returns the command to run in autonomous
@@ -243,7 +243,7 @@ public class RobotContainer {
         new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
         new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem)
       ),
-      new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 0.3)
+      new IntakeWoodForSecsCommand(m_woodIntakeSubsystem, 0.7)
     );
   }
 
@@ -268,15 +268,6 @@ public class RobotContainer {
       new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
       new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
       Commands.print("INTAKE DONE!")
-    );
-  }
-
-  // Score Wood
-  public SequentialCommandGroup resetWoodCommand() {
-    return new SequentialCommandGroup(
-      new SetWoodFlipoutCommand(m_woodFlipoutSubsystem, "RESET"),
-      new ZeroWoodFlipoutCommand(m_woodFlipoutSubsystem),
-      Commands.print("SCORE DONE!")
     );
   }
 }

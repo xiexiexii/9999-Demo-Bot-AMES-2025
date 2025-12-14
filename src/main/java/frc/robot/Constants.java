@@ -130,10 +130,10 @@ public final class Constants {
   public static final class MotorSpeedConstants {
 
     // Intake
-    public static final double k_intakeSpeed = 0.75;
+    public static final double k_intakeSpeed = 0.78;
 
     // Wood Intake
-    public static final double k_woodIntakeSpeed = 0.235;
+    public static final double k_woodIntakeSpeed = 0.40; // 0.235
     public static final double k_woodIntakeAutoSpeed = 0.27;
 
     public static final double k_woodShooterSpeed = 0.40;
@@ -146,7 +146,7 @@ public final class Constants {
 
     // Shooter 
     public static final double k_shooterSpeed = 0.70;
-    public static final double k_shooterSpeedSnipe = 0.90;
+    public static final double k_shooterSpeedSnipe = 0.95;
     public static final double k_shooterIndexSpeed = 0.05;
   }
 
